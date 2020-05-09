@@ -26,6 +26,7 @@ editor_options:
   }
 }
 
+.large { font-size: 130% }
 </style>
 
 ```{r setup, include=FALSE}
@@ -33,6 +34,13 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(cache = TRUE, fig.align = "center", dev = "svg")
 options(tibble.print_max = 6, tibble.print_min = 6)
 # knitr::opts_knit$set(root.dir = normalizePath('../'))
+```
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(tibble)
+
 ```
 
 ```{css, echo=FALSE}
@@ -388,11 +396,11 @@ filter(data_work, Species == "virginica", Petal.Width < 2)
 
 ---
 
-> Again, it looks like the natural language !
+> .large[Again, it looks like the natural language !]
 
 --
 
-That's one of the nicer things in the `dplyr` syntax.
+.large[That's one of the nicer things in the `dplyr` syntax.]
 
 ---
 
@@ -539,7 +547,7 @@ data_work_by_species
 
 --
 
-Not the `# Groups:   Species [3]`. It means that operations on this dataset will be done for each group.
+Note the `# Groups:   Species [3]`. It means that operations on this dataset will be done for each group.
 
 ---
 
@@ -630,7 +638,6 @@ Instead, we should have:
 
 
 ```{r, echo = FALSE}
-library(tidyr)
 d %>% pivot_longer(cols =  c(`2002`, `2007`), names_to = "year", values_to = "population") %>% head
 ```
 
@@ -656,9 +663,62 @@ data_tidy <- d %>% pivot_longer(cols =  c(`2002`,`2007`))
 head(data_tidy)
 ```
 
-The first argument is the dataset to tidy (which is not necessary to complete because of the %>% ). The second is the name of the columns to gather.
+The first argument is the dataset to tidy (which is not necessary to complete because of the %>% ).
 
-We can also provide
+The second is the name of the columns to gather.
+
+
+---
+
+We can also provide another name to the new column.
+The columns to gather can also be selected using the select helpers that we've seen previously:
+
+```{r}
+
+#d is the dataset with the populations of the countries
+data_tidy <- d %>%
+  pivot_longer(cols =  -country, names_to = "Year", values_to = "Population")
+
+head(data_tidy)
+```
+
+
+---
+
+Conversely, `pivot_wider` allows us to come back to the first dataset.
+
+--
+
+```{r}
+
+data_tidy %>% pivot_wider(names_from = Year, values_from = Population)
+
+```
+
+
+---
+
+# Conclusion
+
+The `tidyverse` provides many tools to work with data. 
+
+--
+
+Many subjects topics have not been presented today:
+
+* manipulate factors using `forcats`
+* manipulate dates factors using `lubridate`
+* join tables using the `*_join` functions of `dplyr`
+* ...
+
+--
+
+.large[Feel free to consult this book (available for free online):]
+
+.center[![](lesson_figures/r4ds.jpg)]
+
+---
+
 
 
 
