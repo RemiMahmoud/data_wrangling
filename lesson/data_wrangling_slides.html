@@ -59,7 +59,9 @@ pre {
 
 # Who is talking ? 
 
-.pull-left[![](lesson_figures/mahmoud_photo.png)]
+&lt;!-- .pull-left[![](lesson_figures/mahmoud_photo.jpeg)] --&gt;
+.pull-left[&lt;img src="lesson_figures/mahmoud_photo.jpeg" style="width: 80%" /&gt;
+]
 
 
 .pull-right[![](lesson_figures/camembert.jpg)]
@@ -109,8 +111,7 @@ pre {
 
 ---
 
-
-# Framework
+## Framework
 
 All manipulations will be done in the `tidyverse` framework.
 
@@ -178,7 +179,7 @@ The `read_csv` functon of `readr` allows to read csv files.
 --
 
 ```r
-data_work &lt;- readr::read_csv('../data/iris.csv')
+data_work &lt;- readr::read_csv('data/iris.csv')
 ```
 
 ```
@@ -211,7 +212,7 @@ This function has also other arguments that may be useful for you when using it:
 
 # Tibble vs dataframe
 
-Lets take a look at the data we have imported.
+Let us take a look at the data we have imported.
 
 
 ```r
@@ -247,7 +248,7 @@ As part of the tidyverse, it is mainly used in the tidyverse' packages.
 
 --
 
-__The difference should not worry you__, the main difference with a classical dataframe is the nicer output when printing (run `iris` in R to see the difference). 
+__The difference should not worry you__: the main difference with a classical dataframe is the nicer output when printing (run `iris` in R to see the difference). 
 
 --
 
@@ -280,8 +281,22 @@ Some arguments are useful for you:
 
 ---
 
+class: center, middle
+
+# .large[Is everything ok until now ?]
+
+&lt;img src="lesson_figures/interrogation_mark.jpg" style="width: 50%" /&gt;
+
+---
+class: center, middle
+
 # Exercises
 
+.large[~ 30 minutes]
+
+--
+
+.large[*Download the file "Import_data_exercises.Rmd" from the Github depository and open it with Rstudio*]
 
 
 
@@ -324,7 +339,7 @@ Let us consider the dataset `data_work` previously introduced (it is simply the 
 ## # ... with 144 more rows
 ```
 
-Let's consider the manipulations we can do on this dataset.
+Let us see the manipulations we can do on this dataset.
 
 ---
 
@@ -660,6 +675,16 @@ mutate(data_work, sum_lengths = Sepal.Length + Petal.Length)
 
 ---
 
+class: center, middle
+
+# .large[Is everything clear ?]
+
+&lt;img src="lesson_figures/interrogation_mark.jpg" style="width: 50%" /&gt;
+
+
+---
+
+
 # Chain commands using %&gt;% (pipe) operator
 
 The %&gt;% (pronounce pipe) provides a convenient way to code, as it allows the code to be written in chain. 
@@ -918,8 +943,30 @@ data_work_by_species %&gt;% ungroup
 
 ---
 
+class: center, middle
 
-Exercises
+# .large[Do you have questions ?]
+
+&lt;img src="lesson_figures/interrogation_mark.jpg" style="width: 50%" /&gt;
+
+
+---
+class: center, middle
+
+# Exercises
+
+
+.large[~ 20 minutes]
+
+--
+
+.large[*Download the file "Manipulate_and_tidy_your_data_exercises.Rmd" from the Github depository and open it with Rstudio*]
+
+--
+
+.large[*Answer to the questions until section "Tidy your data"*]
+
+
 
 ---
 
@@ -1091,6 +1138,25 @@ data_tidy %&gt;% pivot_wider(names_from = Year, values_from = Population)
 
 ---
 
+class: center, middle
+
+# .large[Is everything clear ?]
+
+&lt;img src="lesson_figures/interrogation_mark.jpg" style="width: 50%" /&gt;
+
+
+---
+class: center, middle
+
+# Exercises
+
+--
+.large[~ 20 minutes]
+
+
+
+---
+
 # Conclusion
 
 The `tidyverse` provides many tools to work with data. 
@@ -1101,6 +1167,7 @@ Many topics have not been presented today:
 
 * manipulate factors using `forcats`
 * manipulate dates using `lubridate`
+* manipulate dates using `stringr`
 * join tables using the `*_join` functions of `dplyr`
 * apply `mutate`, `filter` or `select` on specific columns using `*_at`, `*_if`, `*_all` suffixes
 * ...

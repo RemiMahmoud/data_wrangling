@@ -1,0 +1,141 @@
+---
+title: "Manipulate data on R"
+---
+
+
+# Explore your data
+
+
+1. Retrieve the data you read (three datasets corresponding to the sheets of phenotype.xlsx)
+
+```{r}
+
+
+```
+
+2. Load `dplyr` and explore the three datasets using `glimpse`
+
+```{r}
+
+```
+
+
+Now some insights, this is data I have to manipulate during my PhD. I modified it, and shortened it in order to make things easier. But as it is, it is something looking almost like real life situations.
+
+
+
+For this exercise, we will work on the sheet "plot" of the data.
+
+It contains values of biomass (seed and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 1. crop_type (here just sole crops), 2. a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
+
+4.1 Create a dataset  (name it `data_barley`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+
+4.2 Create a dataset  (name it `data_pea`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+
+These operations have to be done in two commands (one for barley, one for pea, without intermediate datasets).
+
+__Try to write it using the pipe__ and do it __without__ to see the difference.
+Remember ctrl + shift + M to print it.
+
+```{r}
+
+
+```
+
+
+5. The shoot parts of a plant contain the seed. We may need to compute the biomass of all shoot parts, *except* the seeds. Create a new column using `mutate` (name it biomass_no_seed) that is the difference between the biomass_shoot and the biomass_seed.
+
+__Hint__: To avoid trouble while typing column name, you can use the Rstudio keyboard shortcut ctrl + space, it should suggest you the name of the columns of the dataset (__if you use the pipe__).
+
+```{r}
+
+
+```
+
+6. Suppose now we want to know how many treatments (i.e code_crop) are available for each cultivar. Do it using the `distinct` function.
+
+
+```{r}
+
+```
+
+What are the different treatments available for the barley and the pea ?
+
+
+7. Suppose we want to see if the block number has an influence on the yield of the pea (biomass_seed). 
+
+Carry out the following step to test it (using the %>% )
+
+1. Take `data_pea`
+2. Rename "biomass_seed.2002-08-08" to Yield (function `rename` of dplyr)
+3. Run an ANOVA (think on what you should put in the formula)
+4. Print a summary
+
+Conclude
+
+
+```{r}
+
+```
+
+8. Compute the mean and the standard deviation *by cultivar* of the yield for the barley and summarise it in a table
+
+```{r}
+
+```
+
+## Tidy your data
+
+
+1. Load `tidyr`
+
+```{r}
+
+```
+
+2. Use the function `bind_rows` to bind `data_barley` and `data_pea` (simply `bind_rows(data_pea, data_barley)`. Put the result in a dataset called `data_species`
+
+```{r}
+
+
+```
+
+
+
+3. Use `pivot_longer` to gather all columns starting with "biomass" into a new column called "trait" (like a functional trait). Print the new dataset
+
+```{r}
+
+```
+
+4. Use `separate` (see `?separate`) to turn the column `biomass_type` into two new columns : The first called "biomass_type", the second called "date".
+
+*Hint:* You need to specify `sep = "\\."` (it is a regular expression) 
+```{r}
+
+```
+
+5. Use `pivot_wider` to spread your type of biomass into new columns (do not spread the `date` column ! )
+
+```{r}
+```
+
+
+6. __If you have the time__:
+
+Print your new dataset, what is the type of `date` ? Is it convenient ?
+
+Run the following command: `data_biomass %>% mutate(date = lubridate::ymd(date))` (replace data_biomass by the name of your dataset).
+
+What does it change ? 
+
+
+
+```{r}
+
+```
+
+In practice, it is more convenient to work with date objects than with characters.
+
+
+
