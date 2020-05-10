@@ -34,16 +34,19 @@ class: center, middle, inverse, title-slide
 }
 
 .large { font-size: 130% }
+
+.small {font-size: 80% }
+
+remark.macros.scale = function (percentage) {
+  var url = this;
+  return '&lt;img src="' + url + '" style="width: ' + percentage + '" /&gt;';
+};
+
 &lt;/style&gt;
 
 
 
 
-```r
-library(tidyr)
-library(dplyr)
-library(tibble)
-```
 
 &lt;style type="text/css"&gt;
 pre {
@@ -300,7 +303,8 @@ Select columns, filter their rows, create new columns etc.
 
 --
 
-.center[![](lesson_figures/dplyr1.jpg)]
+&lt;!-- .center[![](lesson_figures/dplyr1.jpg)] --&gt;
+.center[&lt;img src="lesson_figures/dplyr1.jpg" style="width: 75%" /&gt;]
 
 ---
 
@@ -335,8 +339,9 @@ In a data analysis, we could be interested in:
 
 
 ```r
-select(data_work, 3)
+select(data_work, `3`)
 ```
+
 
 ```
 ## # A tibble: 150 x 1
@@ -365,8 +370,10 @@ In a data analysis, we could be interested in:
 
 
 ```r
-select(data_work, Sepal.Width)
+select(data_work, `Sepal.Width`) 
+# Note the absence of " around Sepal .Width
 ```
+
 
 ```
 ## # A tibble: 150 x 1
@@ -379,10 +386,6 @@ select(data_work, Sepal.Width)
 ## 5         3.6
 ## 6         3.9
 ## # ... with 144 more rows
-```
-
-```r
-# Note the absence of " around Sepal .Width
 ```
 
 ---
@@ -398,8 +401,9 @@ In a data analysis, we could be interested in:
 
 
 ```r
-select(data_work, - c(Sepal.Width, Sepal.Length))
+select(data_work, `- c(Sepal.Width, Sepal.Length)`)
 ```
+
 
 ```
 ## # A tibble: 150 x 3
@@ -414,10 +418,10 @@ select(data_work, - c(Sepal.Width, Sepal.Length))
 ## # ... with 144 more rows
 ```
 
-```r
-#Note the absence of " around Sepal.Width and Sepal.Length,
-#and the - that means except
-```
+--
+
+Note the absence of " around Sepal.Width and Sepal.Length,
+and the __-__ that means __except__
 
 ---
 
@@ -441,7 +445,7 @@ select(data_work, - c(Sepal.Width, Sepal.Length))
 
 --
 
-&gt; That's one of the assets of the dplyr syntax: it looks like almost natural language.
+&gt; .large[That's one of the assets of the dplyr syntax: it looks like almost natural language.]
 
 ---
   
@@ -455,8 +459,9 @@ In a data analysis, we could be interested in:
 --
 
 ```r
-filter(data_work, Sepal.Length &gt; 4)
+filter(data_work, `Sepal.Length &gt; 4`)
 ```
+
 
 ```
 ## # A tibble: 150 x 5
@@ -484,9 +489,11 @@ In a data analysis, we could be interested in:
 --
 
 
+
 ```r
-filter(data_work, Species == "virginica")
+filter(data_work, `Species == "virginica"`)
 ```
+
 
 ```
 ## # A tibble: 50 x 5
@@ -515,8 +522,9 @@ You can put multiple conditions, for instance:
 
 
 ```r
-filter(data_work, Species == "virginica", Petal.Width &lt; 2)
+filter(data_work, `Species == "virginica", Petal.Width &lt; 2`)
 ```
+
 
 ```
 ## # A tibble: 21 x 5
@@ -532,12 +540,13 @@ filter(data_work, Species == "virginica", Petal.Width &lt; 2)
 ```
 
 ---
+class: center, middle
 
 &gt; .large[Again, it looks like the natural language !]
 
 --
 
-.large[That's one of the nicer things in the `dplyr` syntax.]
+.large[*That's one of the nicer things in the `dplyr` syntax.*]
 
 ---
 
@@ -575,13 +584,78 @@ mutate(data_work, sum_lengths = Sepal.Length + Petal.Length)
 
 ## `dplyr`: other useful functions
 
+
+.small[`dplyr` provides many useful functions. You can guess their purposes just by their name:]
+
 --
 
-`dplyr` provides many useful functions. You can guess their purposes just by their name:
+* `arrange`: `arrange(data_work, Species, desc(Petal.Length))`
 
-* `arrange`
-* `distinct`
-* `rename`
+--
+
+
+```
+## # A tibble: 150 x 5
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+## 1          4.8         3.4          1.9         0.2 setosa 
+## 2          5.1         3.8          1.9         0.4 setosa 
+## 3          5.4         3.9          1.7         0.4 setosa 
+## 4          5.7         3.8          1.7         0.3 setosa 
+## 5          5.4         3.4          1.7         0.2 setosa 
+## 6          5.1         3.3          1.7         0.5 setosa 
+## # ... with 144 more rows
+```
+
+---
+
+## `dplyr`: other useful functions
+
+
+.small[`dplyr` provides many useful functions. You can guess their purposes just by their name:]
+
+--
+
+* `distinct`: `distinct(data_work, Species)`
+
+--
+
+
+```
+## # A tibble: 3 x 1
+##   Species   
+##   &lt;chr&gt;     
+## 1 setosa    
+## 2 versicolor
+## 3 virginica
+```
+
+---
+
+## `dplyr`: other useful functions
+
+
+.small[`dplyr` provides many useful functions. You can guess their purposes just by their name:]
+
+--
+
+* `rename`: `rename(data_work, S.Width = Sepal.Width, S.Length = Sepal.Length)`
+
+--
+
+
+```
+## # A tibble: 150 x 5
+##   S.Length S.Width Petal.Length Petal.Width Species
+##      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+## 1      5.1     3.5          1.4         0.2 setosa 
+## 2      4.9     3            1.4         0.2 setosa 
+## 3      4.7     3.2          1.3         0.2 setosa 
+## 4      4.6     3.1          1.5         0.2 setosa 
+## 5      5       3.6          1.4         0.2 setosa 
+## 6      5.4     3.9          1.7         0.4 setosa 
+## # ... with 144 more rows
+```
 
 
 ---
@@ -591,6 +665,14 @@ mutate(data_work, sum_lengths = Sepal.Length + Petal.Length)
 The %&gt;% (pronounce pipe) provides a convenient way to code, as it allows the code to be written in chain. 
 
 .center[![](lesson_figures/this_is_not_a_pipe.jpg)]
+
+--
+
+&gt; __IMPORTANT__: the keyboard shortcut for %&gt;% is *ctrl + shift + M*
+
+--
+
+&gt; Try it !
 
 ---
 
@@ -633,33 +715,43 @@ data_work %&gt;%
 --
 
 
-See how clearer it looks. 
+You see how clearer it looks ?
+
+--
+
 
 If I run this: `x %&gt;% sum` it is strictly equivalent to `sum(x)`.
 
+
+--
+
+It means: take `x` and pass it through the function `sum`.
 ---
 
-Another example to see the power of %&gt;%. Suppose I want to carry out the following steps:
+.small[Another example to see the power of %&gt;%. Suppose I want to carry out the following steps:]
 
-1. Take `data_work`
+--
+
+.small[1. Take `data_work`
 2. Select variables containing "Sepal", and "Petal.Width" and "Species"
 3. Filter rows with length of Sepal greater than 5
 4. Fit a linear model of Petal.Width vs Sepal.Width + Sepal.Length + Species
-5. Print a summary of the model
+5. Print a summary of the model]
 
 
 --
 
 
 ```r
-data_work %&gt;% #Step 1
+data_work %&gt;% `#Step 1`
   select(contains("Sepal") ,
-         Petal.Width, Species) %&gt;% # Step 2
-  filter(Sepal.Length &gt;5) %&gt;% # Step 3
+         Petal.Width, Species) %&gt;% `# Step 2`
+  filter(Sepal.Length &gt;5) %&gt;% `# Step 3`
   lm(Petal.Width ~ Sepal.Width + Sepal.Length + Species,
-     data= .) %&gt;% # Step 4: NOTE THE .
-  summary # Step 5
+     data= .) %&gt;% `# Step 4: NOTE THE .`
+  summary `# Step 5`
 ```
+
 
 ```
 ## 
@@ -690,41 +782,18 @@ data_work %&gt;% #Step 1
 
 
 ```r
-data_work %&gt;% #Step 1
+data_work %&gt;% `#Step 1`
   select(contains("Sepal") ,
-         Petal.Width, Species) %&gt;% # Step 2
-  filter(Sepal.Length &gt;5) %&gt;% # Step 3
+         Petal.Width, Species) %&gt;% `# Step 2`
+  filter(Sepal.Length &gt; 5) %&gt;% `# Step 3`
   lm(Petal.Width ~ Sepal.Width + Sepal.Length + Species,
-     data= .) %&gt;% # Step 4: NOTE THE .
-  summary # Step 5
+     data= `.`) %&gt;% `# Step 4: NOTE THE .`
+  summary `# Step 5`
 ```
 
-```
-## 
-## Call:
-## lm(formula = Petal.Width ~ Sepal.Width + Sepal.Length + Species, 
-##     data = .)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -0.48660 -0.10718 -0.00351  0.12237  0.46503 
-## 
-## Coefficients:
-##                   Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)       -1.14888    0.24851  -4.623 1.01e-05 ***
-## Sepal.Width        0.31463    0.06437   4.888 3.40e-06 ***
-## Sepal.Length       0.04850    0.03937   1.232     0.22    
-## Speciesversicolor  1.32247    0.08861  14.924  &lt; 2e-16 ***
-## Speciesvirginica   1.92157    0.09602  20.012  &lt; 2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.1902 on 113 degrees of freedom
-## Multiple R-squared:  0.9225,	Adjusted R-squared:  0.9198 
-## F-statistic: 336.4 on 4 and 113 DF,  p-value: &lt; 2.2e-16
-```
+--
 
-In this example, it is also important to notice the __.__ . When using the pipe, the "." is the object refering to what's before the last %&gt;% .
+In this example, it is also important to notice the .large[__.__] . When using the pipe, the "." is the object refering to what's before the last %&gt;% .
 
 --
 
@@ -734,18 +803,27 @@ It is important to specify it when the argument that needs the object before the
 
 # Group operations
 
-An important features of `dplyr` is its ability to *group* tibbles and compute operations on these *grouped* tibbles.
+.large[An important features of `dplyr` is its ability to *group* tibbles and compute operations on these *grouped* tibbles.]
+
+--
+
+.large[A *key* function of `dplyr` is `group_by`.]
 
 ---
+
+## `dplyr::group_by`
+
+--
 
 
 ```r
 data_work_by_species &lt;- data_work %&gt;%
-  group_by(Species) 
+  `group_by`(Species) 
 # Equivalent to data_work_by_species &lt;- group_by(data_work, Species)
 
 data_work_by_species
 ```
+
 
 ```
 ## # A tibble: 150 x 5
@@ -760,7 +838,6 @@ data_work_by_species
 ## 6          5.4         3.9          1.7         0.4 setosa 
 ## # ... with 144 more rows
 ```
-
 --
 
 Note the `# Groups:   Species [3]`. It means that operations on this dataset will be done for each group.
@@ -818,7 +895,7 @@ data_work_by_species %&gt;%
 
 ---
 
-If you want to take out the grouped structure of you tibble, you just have to use the function `ungroup`
+If you want to take out the grouped structure of your tibble, you just have to use the function `ungroup`
 
 
 ```r
@@ -910,6 +987,10 @@ Instead, we should have:
 
 ### Make tidy data
 
+Two key functions, of package `tidyr` are used to tidy the data:
+
+--
+
 * `tidyr::pivot_longer` is used to make your dataset *longer* (what a surprise ! :O)
 * `tidyr::pivot_wider` is used to make your dataset *wider* (what a surprise ! :O)
 
@@ -922,7 +1003,7 @@ In practice:
 
 ```r
 #d is the dataset with the populations of the countries
-data_tidy &lt;- d %&gt;% pivot_longer(cols =  c(`2002`,`2007`))
+data_tidy &lt;- d %&gt;% pivot_longer(cols =  c("2002","2007"))
 
 head(data_tidy)
 ```
@@ -939,24 +1020,38 @@ head(data_tidy)
 ## 6 Germany 2007  82400996
 ```
 
+--
+
 The first argument is the dataset to tidy (which is not necessary to complete because of the %&gt;% ).
+
+--
 
 The second is the name of the columns to gather.
 
 
 ---
 
-We can also provide another name to the new column.
+We can also provide another names to the new columns using the arguments `values_to` and `names_to`.
+
+--
+
 The columns to gather can also be selected using the select helpers that we've seen previously:
+
+--
 
 
 ```r
 #d is the dataset with the populations of the countries
 data_tidy &lt;- d %&gt;%
-  pivot_longer(cols =  -country, names_to = "Year", values_to = "Population")
+  pivot_longer(cols =  `-country`,
+               `names_to` = "Year", # New name
+               #for the columns 2002 and 2007
+               `values_to` = "Population") 
+    #New name for the values
 
 head(data_tidy)
 ```
+
 
 ```
 ## # A tibble: 6 x 3
@@ -969,7 +1064,6 @@ head(data_tidy)
 ## 5 Germany 2002    82350671
 ## 6 Germany 2007    82400996
 ```
-
 
 ---
 
@@ -1003,23 +1097,37 @@ The `tidyverse` provides many tools to work with data.
 
 --
 
-Many subjects topics have not been presented today:
+Many topics have not been presented today:
 
 * manipulate factors using `forcats`
-* manipulate dates factors using `lubridate`
+* manipulate dates using `lubridate`
 * join tables using the `*_join` functions of `dplyr`
+* apply `mutate`, `filter` or `select` on specific columns using `*_at`, `*_if`, `*_all` suffixes
 * ...
 
 --
 
-.large[Feel free to consult this book (available for free online):]
+Feel free to consult this book (available for free online at this adress: [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)):
 
 .center[![](lesson_figures/r4ds.jpg)]
 
 ---
 
+class: center, middle
 
+# THANKS
 
+--
+
+.large[Any remark, questions ?]
+
+--
+
+.large[remi.mahmoud@inrae.fr]
+
+--
+
+Lesson contents available at: [https://github.com/RemiMahmoud/data_wrangling](https://github.com/RemiMahmoud/data_wrangling)
 
 &lt;!-- ### `tidyr::pivot_longer` and `tidyr::pivot_wider` --&gt;
     </textarea>
@@ -1027,6 +1135,7 @@ Many subjects topics have not been presented today:
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightLines": true,
+"highlightSpans": true,
 "countIncrementalSlides": false
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {

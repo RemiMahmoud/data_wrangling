@@ -5,6 +5,7 @@ output:
   xaringan::moon_reader:
     nature:
       highlightLines: true
+      highlightSpans: true
       countIncrementalSlides: false
 editor_options: 
   chunk_output_type: console
@@ -27,6 +28,14 @@ editor_options:
 }
 
 .large { font-size: 130% }
+
+.small {font-size: 80% }
+
+remark.macros.scale = function (percentage) {
+  var url = this;
+  return '<img src="' + url + '" style="width: ' + percentage + '" />';
+};
+
 </style>
 
 ```{r setup, include=FALSE}
@@ -34,9 +43,18 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(cache = TRUE, fig.align = "center", dev = "svg")
 options(tibble.print_max = 6, tibble.print_min = 6)
 # knitr::opts_knit$set(root.dir = normalizePath('../'))
+
+
+hook_source <- knitr::knit_hooks$get('source')
+knitr::knit_hooks$set(source = function(x, options) {
+  x <- stringr::str_replace(x, "^[[:blank:]]?([^*].+?)[[:blank:]]*#<<[[:blank:]]*$", "*\\1")
+  hook_source(x, options)
+}) #To highlight code more easily (see https://www.garrickadenbuie.com/blog/highlight-lines-without-breaking-the-code-in-xaringan/)
+
+
 ```
 
-```{r}
+```{r, echo = FALSE}
 library(tidyr)
 library(dplyr)
 library(tibble)
@@ -263,7 +281,8 @@ Select columns, filter their rows, create new columns etc.
 
 --
 
-.center[![](lesson_figures/dplyr1.jpg)]
+<!-- .center[![](lesson_figures/dplyr1.jpg)] -->
+.center[<img src="lesson_figures/dplyr1.jpg" style="width: 75%" />]
 
 ---
 
@@ -286,7 +305,11 @@ In a data analysis, we could be interested in:
 
 --
 
-```{r}
+```{r, eval = FALSE}
+select(data_work, `3`)
+```
+
+```{r, echo = FALSE}
 select(data_work, 3)
 ```
 
@@ -302,8 +325,13 @@ In a data analysis, we could be interested in:
 
 --
 
-```{r}
-select(data_work, Sepal.Width)
+```{r, eval = FALSE}
+select(data_work, `Sepal.Width`) 
+# Note the absence of " around Sepal .Width
+```
+
+```{r, echo = FALSE}
+select(data_work, Sepal.Width) 
 # Note the absence of " around Sepal .Width
 ```
 
@@ -318,11 +346,18 @@ In a data analysis, we could be interested in:
   
 --
 
-```{r}
-select(data_work, - c(Sepal.Width, Sepal.Length))
-#Note the absence of " around Sepal.Width and Sepal.Length,
-#and the - that means except
+```{r, eval = FALSE}
+select(data_work, `- c(Sepal.Width, Sepal.Length)`)
 ```
+
+```{r, echo = FALSE}
+select(data_work, - c(Sepal.Width, Sepal.Length))
+```
+
+--
+
+Note the absence of " around Sepal.Width and Sepal.Length,
+and the __-__ that means __except__
 
 ---
 
@@ -346,7 +381,7 @@ select(data_work, - c(Sepal.Width, Sepal.Length))
 
 --
 
-> That's one of the assets of the dplyr syntax: it looks like almost natural language.
+> .large[That's one of the assets of the dplyr syntax: it looks like almost natural language.]
 
 ---
   
@@ -358,7 +393,11 @@ In a data analysis, we could be interested in:
   + *filter* rows of `data_work` with individuals having their length of Sepal greater than 4
 
 --
-```{r}
+```{r, eval = FALSE}
+filter(data_work, `Sepal.Length > 4`)
+```
+
+```{r, echo = FALSE}
 filter(data_work, Sepal.Length > 4)
 ```
 
@@ -374,7 +413,12 @@ In a data analysis, we could be interested in:
 
 --
 
-```{r}
+
+```{r, eval = FALSE}
+filter(data_work, `Species == "virginica"`)
+```
+
+```{r, echo = FALSE}
 filter(data_work, Species == "virginica")
 ```
 
@@ -390,17 +434,22 @@ You can put multiple conditions, for instance:
 
 --
 
-```{r}
+```{r, eval = FALSE}
+filter(data_work, `Species == "virginica", Petal.Width < 2`)
+```
+
+```{r, echo = FALSE}
 filter(data_work, Species == "virginica", Petal.Width < 2)
 ```
 
 ---
+class: center, middle
 
 > .large[Again, it looks like the natural language !]
 
 --
 
-.large[That's one of the nicer things in the `dplyr` syntax.]
+.large[*That's one of the nicer things in the `dplyr` syntax.*]
 
 ---
 
@@ -424,13 +473,52 @@ mutate(data_work, sum_lengths = Sepal.Length + Petal.Length)
 
 ## `dplyr`: other useful functions
 
+
+.small[`dplyr` provides many useful functions. You can guess their purposes just by their name:]
+
 --
 
-`dplyr` provides many useful functions. You can guess their purposes just by their name:
+* `arrange`: `arrange(data_work, Species, desc(Petal.Length))`
 
-* `arrange`
-* `distinct`
-* `rename`
+--
+
+```{r, echo = FALSE}
+arrange(data_work, Species, desc(Petal.Length))
+```
+
+---
+
+## `dplyr`: other useful functions
+
+
+.small[`dplyr` provides many useful functions. You can guess their purposes just by their name:]
+
+--
+
+* `distinct`: `distinct(data_work, Species)`
+
+--
+
+```{r, echo = FALSE}
+distinct(data_work, Species)
+```
+
+---
+
+## `dplyr`: other useful functions
+
+
+.small[`dplyr` provides many useful functions. You can guess their purposes just by their name:]
+
+--
+
+* `rename`: `rename(data_work, S.Width = Sepal.Width, S.Length = Sepal.Length)`
+
+--
+
+```{r, echo = FALSE}
+rename(data_work, S.Width = Sepal.Width, S.Length = Sepal.Length)
+```
 
 
 ---
@@ -440,6 +528,14 @@ mutate(data_work, sum_lengths = Sepal.Length + Petal.Length)
 The %>% (pronounce pipe) provides a convenient way to code, as it allows the code to be written in chain. 
 
 .center[![](lesson_figures/this_is_not_a_pipe.jpg)]
+
+--
+
+> __IMPORTANT__: the keyboard shortcut for %>% is *ctrl + shift + M*
+
+--
+
+> Try it !
 
 ---
 
@@ -480,24 +576,45 @@ data_work %>%
 --
 
 
-See how clearer it looks. 
+You see how clearer it looks ?
+
+--
+
 
 If I run this: `x %>% sum` it is strictly equivalent to `sum(x)`.
-
----
-
-Another example to see the power of %>%. Suppose I want to carry out the following steps:
-
-1. Take `data_work`
-2. Select variables containing "Sepal", and "Petal.Width" and "Species"
-3. Filter rows with length of Sepal greater than 5
-4. Fit a linear model of Petal.Width vs Sepal.Width + Sepal.Length + Species
-5. Print a summary of the model
 
 
 --
 
-```{r}
+It means: take `x` and pass it through the function `sum`.
+---
+
+.small[Another example to see the power of %>%. Suppose I want to carry out the following steps:]
+
+--
+
+.small[1. Take `data_work`
+2. Select variables containing "Sepal", and "Petal.Width" and "Species"
+3. Filter rows with length of Sepal greater than 5
+4. Fit a linear model of Petal.Width vs Sepal.Width + Sepal.Length + Species
+5. Print a summary of the model]
+
+
+--
+
+```{r, eval = FALSE}
+
+data_work %>% `#Step 1`
+  select(contains("Sepal") ,
+         Petal.Width, Species) %>% `# Step 2`
+  filter(Sepal.Length >5) %>% `# Step 3`
+  lm(Petal.Width ~ Sepal.Width + Sepal.Length + Species,
+     data= .) %>% `# Step 4: NOTE THE .`
+  summary `# Step 5`
+
+```
+
+```{r, echo = FALSE}
 
 data_work %>% #Step 1
   select(contains("Sepal") ,
@@ -511,19 +628,21 @@ data_work %>% #Step 1
 
 ---
 
-```{r}
+```{r, eval = FALSE}
 
-data_work %>% #Step 1
+data_work %>% `#Step 1`
   select(contains("Sepal") ,
-         Petal.Width, Species) %>% # Step 2
-  filter(Sepal.Length >5) %>% # Step 3
+         Petal.Width, Species) %>% `# Step 2`
+  filter(Sepal.Length > 5) %>% `# Step 3`
   lm(Petal.Width ~ Sepal.Width + Sepal.Length + Species,
-     data= .) %>% # Step 4: NOTE THE .
-  summary # Step 5
+     data= `.`) %>% `# Step 4: NOTE THE .`
+  summary `# Step 5`
 
 ```
 
-In this example, it is also important to notice the __.__ . When using the pipe, the "." is the object refering to what's before the last %>% .
+--
+
+In this example, it is also important to notice the .large[__.__] . When using the pipe, the "." is the object refering to what's before the last %>% .
 
 --
 
@@ -533,18 +652,33 @@ It is important to specify it when the argument that needs the object before the
 
 # Group operations
 
-An important features of `dplyr` is its ability to *group* tibbles and compute operations on these *grouped* tibbles.
+.large[An important features of `dplyr` is its ability to *group* tibbles and compute operations on these *grouped* tibbles.]
+
+--
+
+.large[A *key* function of `dplyr` is `group_by`.]
 
 ---
 
-```{r}
+## `dplyr::group_by`
+
+--
+
+```{r, eval = FALSE}
+data_work_by_species <- data_work %>%
+  `group_by`(Species) 
+# Equivalent to data_work_by_species <- group_by(data_work, Species)
+
+data_work_by_species
+```
+
+```{r, echo = FALSE}
 data_work_by_species <- data_work %>%
   group_by(Species) 
 # Equivalent to data_work_by_species <- group_by(data_work, Species)
 
 data_work_by_species
 ```
-
 --
 
 Note the `# Groups:   Species [3]`. It means that operations on this dataset will be done for each group.
@@ -579,7 +713,7 @@ data_work_by_species %>%
 
 ---
 
-If you want to take out the grouped structure of you tibble, you just have to use the function `ungroup`
+If you want to take out the grouped structure of your tibble, you just have to use the function `ungroup`
 
 ```{r}
 data_work_by_species %>% ungroup
@@ -604,8 +738,8 @@ Exercises
 ---
 
 ```{r, echo = FALSE, eval = TRUE}
-library(tibble)
-d <-tribble(~ country, ~`2002`, ~	`2007`,
+# library(tibble)
+d <-tribble(~ country, ~"2002", ~	"2007",
             "Belgium",	10311970,	10392226,
             "France",	59925035,	61083916,
             "Germany",	82350671,	82400996,
@@ -638,13 +772,17 @@ Instead, we should have:
 
 
 ```{r, echo = FALSE}
-d %>% pivot_longer(cols =  c(`2002`, `2007`), names_to = "year", values_to = "population") %>% head
+d %>% pivot_longer(cols =  c("2002", "2007"), names_to = "year", values_to = "population") %>% head
 ```
 
 
 ---
 
 ### Make tidy data
+
+Two key functions, of package `tidyr` are used to tidy the data:
+
+--
 
 * `tidyr::pivot_longer` is used to make your dataset *longer* (what a surprise ! :O)
 * `tidyr::pivot_wider` is used to make your dataset *wider* (what a surprise ! :O)
@@ -658,30 +796,53 @@ In practice:
 ```{r}
 
 #d is the dataset with the populations of the countries
-data_tidy <- d %>% pivot_longer(cols =  c(`2002`,`2007`))
+data_tidy <- d %>% pivot_longer(cols =  c("2002","2007"))
 
 head(data_tidy)
 ```
 
+--
+
 The first argument is the dataset to tidy (which is not necessary to complete because of the %>% ).
+
+--
 
 The second is the name of the columns to gather.
 
 
 ---
 
-We can also provide another name to the new column.
+We can also provide another names to the new columns using the arguments `values_to` and `names_to`.
+
+--
+
 The columns to gather can also be selected using the select helpers that we've seen previously:
 
-```{r}
+--
+
+```{r, eval = FALSE}
 
 #d is the dataset with the populations of the countries
 data_tidy <- d %>%
-  pivot_longer(cols =  -country, names_to = "Year", values_to = "Population")
+  pivot_longer(cols =  `-country`,
+               `names_to` = "Year", # New name
+               #for the columns 2002 and 2007
+               `values_to` = "Population") 
+    #New name for the values
 
 head(data_tidy)
 ```
 
+```{r, echo = FALSE}
+
+#d is the dataset with the populations of the countries
+data_tidy <- d %>%
+  pivot_longer(cols =  -country,
+               names_to = "Year",
+               values_to = "Population")
+
+head(data_tidy)
+```
 
 ---
 
@@ -704,23 +865,37 @@ The `tidyverse` provides many tools to work with data.
 
 --
 
-Many subjects topics have not been presented today:
+Many topics have not been presented today:
 
 * manipulate factors using `forcats`
-* manipulate dates factors using `lubridate`
+* manipulate dates using `lubridate`
 * join tables using the `*_join` functions of `dplyr`
+* apply `mutate`, `filter` or `select` on specific columns using `*_at`, `*_if`, `*_all` suffixes
 * ...
 
 --
 
-.large[Feel free to consult this book (available for free online):]
+Feel free to consult this book (available for free online at this adress: [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)):
 
 .center[![](lesson_figures/r4ds.jpg)]
 
 ---
 
+class: center, middle
 
+# THANKS
 
+--
+
+.large[Any remark, questions ?]
+
+--
+
+.large[remi.mahmoud@inrae.fr]
+
+--
+
+Lesson contents available at: [https://github.com/RemiMahmoud/data_wrangling](https://github.com/RemiMahmoud/data_wrangling)
 
 <!-- ### `tidyr::pivot_longer` and `tidyr::pivot_wider` -->
 
