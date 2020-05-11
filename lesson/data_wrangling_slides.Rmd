@@ -547,6 +547,18 @@ class: center, middle
 
 ---
 
+class: center, middle
+
+
+<img src="lesson_figures/break.jpg" style="width: 80%" />
+
+--
+
+.large[~ 15 minutes]
+
+
+---
+
 
 # Chain commands using %>% (pipe) operator
 
