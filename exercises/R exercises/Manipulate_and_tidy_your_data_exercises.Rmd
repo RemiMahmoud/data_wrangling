@@ -26,11 +26,11 @@ Now some insights, this is data I have to manipulate during my PhD. I modified i
 
 For this exercise, we will work on the sheet "plot" of the data.
 
-It contains values of biomass (seed and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 1. crop_type (here just sole crops), 2. a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
+It contains values of biomass (grain (=seed) and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 1. crop_type (here just sole crops), 2. a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
 
 4.1 Create a dataset  (name it `data_barley`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
 
-4.2 Create a dataset  (name it `data_pea`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+4.2 Create a dataset  (name it `data_pea`) containing only the observations of the pea, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
 
 These operations have to be done in two commands (one for barley, one for pea, without intermediate datasets).
 
@@ -43,7 +43,7 @@ Remember ctrl + shift + M to print it.
 ```
 
 
-5. The shoot parts of a plant contain the seed. We may need to compute the biomass of all shoot parts, *except* the seeds. Create a new column using `mutate` (name it biomass_no_seed) that is the difference between the biomass_shoot and the biomass_seed.
+5. The shoot parts of a plant contain the grain. We may need to compute the biomass of all shoot parts, *except* the seeds. Create a new column using `mutate` (name it biomass_no_seed) that is the difference between the biomass_shoot and the biomass_seed.
 
 __Hint__: To avoid trouble while typing column name, you can use the Rstudio keyboard shortcut ctrl + space, it should suggest you the name of the columns of the dataset (__if you use the pipe__).
 
@@ -62,14 +62,16 @@ __Hint__: To avoid trouble while typing column name, you can use the Rstudio key
 What are the different treatments available for the barley and the pea ?
 
 
-7. Suppose we want to see if the block number has an influence on the yield of the pea (biomass_seed). 
+7. Suppose we want to see if the block number has an influence on the yield of the pea (biomass_seed).
+Print `data_pea`. What is the type of the block column ? How could you change it using `mutate` and `as.factor` ?
 
 Carry out the following step to test it (using the %>% )
 
 1. Take `data_pea`
 2. Rename "biomass_seed.2002-08-08" to Yield (function `rename` of dplyr)
-3. Run an ANOVA (think on what you should put in the formula)
-4. Print a summary
+3. Change the type of the block column using the function `mutate`
+4. Run an ANOVA (think on what you should put in the formula)
+5. Print a summary
 
 Conclude
 
@@ -77,6 +79,8 @@ Conclude
 ```{r}
 
 ```
+
+In practice, we should verify the ANOVA assumptions and study the residuals, but it is not what matters here :-) .
 
 8. Compute the mean and the standard deviation *by cultivar* of the yield for the barley and summarise it in a table
 
@@ -108,7 +112,7 @@ Conclude
 
 ```
 
-4. Use `separate` (see `?separate`) to turn the column `biomass_type` into two new columns : The first called "biomass_type", the second called "date".
+4. Use `separate` (see `?separate`) to turn the column `trait` into two new columns : The first called "biomass_type", the second called "date".
 
 *Hint:* You need to specify `sep = "\\."` (it is a regular expression) 
 ```{r}

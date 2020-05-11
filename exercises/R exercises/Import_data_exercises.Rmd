@@ -24,13 +24,10 @@ title: "Import data on R"
 ```
 
 
-3. Print `iris` (the classical dataset)
+3. Print `iris` (the classical dataset) directly in the console. 
 
-```{r}
 
-```
-
-What are the differences between your dataset and the classical one ? 
+What are the differences between your dataset and the classical one, when printed  ? 
 
 
 
@@ -55,14 +52,8 @@ What are the differences between your dataset and the classical one ?
 
 ```
 
-2. Print it
 
-```{r}
-
-```
-
-
-Do you see the problem ? Open manually the file and find how to tackle the problem, using other arguments of `read_csv` (see ?read_csv) for details.
+Do you see the problem (something weird for instance) ? Open manually the file and find how to tackle the problem, using other arguments of `read_csv` (see ?read_csv) for details.
 
 
 ```{r}
@@ -83,11 +74,13 @@ Explore your data using `glimpse`
 
 ```
 
-When you see the column "id_car" it is stored as a double, but it may be considered as a character as it is an ID (i.e a name). Use read_csv to consider id_car as character (see argument `col_types` in `read_csv`).
+When you see the column "id_car" it is stored as a double, but it may be considered as a character as it is an ID (i.e a name). Use read_csv to consider id_car as character (see argument `col_types` in `read_csv`, and the `cols`specifications).
 
 
 ```{r}
 ```
+
+In practice, it could be easier to convert the columns into other types after having imported the data.
 
 
 Ensure you have imported well your data by using `glimpse` again.

@@ -178,7 +178,7 @@ For now, we will take a closer look to the `readr` and to a lesser extent `readx
 
 # Import data with `readr`
 
-The `read_csv` functon of `readr` allows to read csv files.
+The `read_csv` function of `readr` allows to read csv files.
 
 --
 ```{r}
@@ -274,7 +274,7 @@ class: center, middle
 
 --
 
-.large[*Download the file "Import_data_exercises.Rmd" from the Github depository and open it with Rstudio*]
+.large[*Download the zip Github depository, open "Import_data_exercises.Rmd" with Rstudio*]
 
 
 
@@ -380,7 +380,7 @@ and the __-__ that means __except__
 
 `select()` is provided with many *functions helpers* that you can use to select columns, for instance:
 
-* `select(data_work, contains("pal"))`: all columns of `data_work` containing "pal"
+* `select(data_work, contains("pal"))`: all columns of `data_work` with a name containing "pal"
 
 --
 
@@ -392,7 +392,7 @@ and the __-__ that means __except__
 
 --
 
-* `select(data_work, matches("*th"))`: *can you guess it ?* (select columns with name matching a regular expression)
+* `select(data_work, matches("*th"))`: *can you guess it ?* (select columns with a name matching a regular expression)
 
 --
 
@@ -776,7 +776,7 @@ class: center, middle
 
 --
 
-.large[*Download the file "Manipulate_and_tidy_your_data_exercises.Rmd" from the Github depository and open it with Rstudio*]
+.large[*Open "Manipulate_and_tidy_your_data_exercises.Rmd" with Rstudio*]
 
 --
 
@@ -823,7 +823,7 @@ d %>% head
 
 --
 
-This is dataset is __not__ tidy, as the population, which is an observed variable is not in a distinct column (principle 1.). Year is also a variable, so it should have its column to.
+This is dataset is __not__ tidy, as the population, which is an observed variable is not in a distinct column (principle 1.). Year is also a variable, so it should have its column too.
 
 ---
 
@@ -933,6 +933,9 @@ class: center, middle
 --
 .large[~ 20 minutes]
 
+--
+
+.large[*Answer to the questions of the section "Tidy your data"*]
 
 
 ---
