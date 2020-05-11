@@ -14,7 +14,7 @@ title: "Import data on R"
 ```
 
 
-2. Read the data "iris.csv" contained in the file "exercises/data", using the function `read_csv` of  `readr`. Store it in an object (choose the name, just avoid calling it `iris`). Print that object.
+2. Read the data "iris.csv" contained in the folder "exercises/data", using the function `read_csv` of  `readr`. Store it in an object (choose the name, just avoid calling it `iris`). Print that object.
 
 
 ```{r}
@@ -48,7 +48,7 @@ What are the differences between your dataset and the classical one ?
 
 
 
-1. Read the data "cars.csv" contained in the file "exercises/data", using the function `read_csv` of  `readr`. Store it in an object. Print that object.
+1. Read the data "cars.csv" contained in the folder "exercises/data", using the function `read_csv` of  `readr`. Store it in an object. Print that object.
 
 
 ```{r}
