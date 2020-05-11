@@ -1,5 +1,5 @@
 ---
-title: "Manipulate data on R"
+title: "Manipulate and tidy data on R"
 ---
 
 
@@ -37,6 +37,8 @@ These operations have to be done in two commands (one for barley, one for pea, w
 __Try to write it using the pipe__ and do it __without__ to see the difference.
 Remember ctrl + shift + M to print it.
 
+*Hint* : To `filter` rows containing observations of the barley or of the pea, you may need to use the `grepl` function, applied on the `cultivar` column.
+
 ```{r}
 
 
@@ -45,7 +47,7 @@ Remember ctrl + shift + M to print it.
 
 5. The shoot parts of a plant contain the grain. We may need to compute the biomass of all shoot parts, *except* the seeds. Create a new column using `mutate` (name it biomass_no_seed) that is the difference between the biomass_shoot and the biomass_seed.
 
-__Hint__: To avoid trouble while typing column name, you can use the Rstudio keyboard shortcut ctrl + space, it should suggest you the name of the columns of the dataset (__if you use the pipe__).
+*Hint*: To avoid trouble while typing column name, you can use the Rstudio keyboard shortcut ctrl + space, it should suggest you the name of the columns of the dataset (__if you use the pipe__).
 
 ```{r}
 
