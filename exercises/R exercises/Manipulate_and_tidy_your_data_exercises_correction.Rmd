@@ -102,7 +102,7 @@ Conclude
 data_pea %>% 
   rename(Yield  = `biomass_seed.2002-08-08`) %>% 
   mutate(block = as.factor(block)) %>% 
-  lm(Yield ~ cultivar + as.factor(block), data = .) %>% 
+  aov(Yield ~ cultivar + as.factor(block), data = .) %>% 
   summary
 ```
 
@@ -141,7 +141,10 @@ data_species <- bind_rows(data_pea, data_barley)
 
 ```{r}
 
-data_tidy <- data_species %>% pivot_longer(cols = starts_with("biomass"), names_to = "trait") 
+data_tidy <- data_species %>%
+  pivot_longer(cols = starts_with("biomass"), names_to = "trait") 
+
+data_tidy
 ```
 
 4. Use `separate` (see `?separate`) to turn the column `trait` into two new columns : The first called "biomass_type", the second called "date".
@@ -150,12 +153,14 @@ data_tidy <- data_species %>% pivot_longer(cols = starts_with("biomass"), names_
 ```{r}
 
 data_tidy_sep <- data_tidy %>% separate(trait, into = c("biomass_type", "date"), sep = "\\.")
+data_tidy_sep
 ```
 
 5. Use `pivot_wider` to spread your type of biomass into new columns (do not spread the `date` column ! )
 
 ```{r}
-data_biomass <- data_tidy_sep %>% pivot_wider(names_from = biomass_type, values_from = value)
+data_biomass <- data_tidy_sep %>%
+  pivot_wider(names_from = biomass_type, values_from = value)
 ```
 
 
