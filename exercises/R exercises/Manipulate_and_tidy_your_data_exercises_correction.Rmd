@@ -48,7 +48,7 @@ Remember ctrl + shift + M to print it.
 ```{r}
 
 data_barley <- data_phenotype %>% 
-  filter(stringr::str_detect( cultivar, "B")) %>% 
+  filter(grepl( "B", cultivar)) %>% 
   select(-c(x,y))
 
 
@@ -101,6 +101,7 @@ Conclude
 
 data_pea %>% 
   rename(Yield  = `biomass_seed.2002-08-08`) %>% 
+  mutate(block = as.factor(block)) %>% 
   lm(Yield ~ cultivar + as.factor(block), data = .) %>% 
   summary
 ```
@@ -108,10 +109,69 @@ data_pea %>%
 8. Compute the mean and the standard deviation *by cultivar* of the yield for the barley and summarise it in a table
 
 ```{r}
-data_summary <- data_barley %>% group_by(cultivar) %>% summarise(mean = mean(`biomass_seed.2002-08-08`), sd = sd(`biomass_seed.2002-08-08`))
+data_summary <- data_barley %>%
+  group_by(cultivar) %>%
+  summarise(mean = mean(`biomass_seed.2002-08-08`),
+            sd = sd(`biomass_seed.2002-08-08`))
 
 
 ```
 
 ## Tidy your data exercises
 
+
+1. Load `tidyr`
+
+```{r}
+
+library(tidyr)
+```
+
+2. Use the function `bind_rows` to bind `data_barley` and `data_pea` (simply `bind_rows(data_pea, data_barley)`. Put the result in a dataset called `data_species`
+
+```{r}
+
+data_species <- bind_rows(data_pea, data_barley)
+
+```
+
+
+
+3. Use `pivot_longer` to gather all columns starting with "biomass" into a new column called "trait" (like a functional trait). Print the new dataset
+
+```{r}
+
+data_tidy <- data_species %>% pivot_longer(cols = starts_with("biomass"), names_to = "trait") 
+```
+
+4. Use `separate` (see `?separate`) to turn the column `trait` into two new columns : The first called "biomass_type", the second called "date".
+
+*Hint:* You need to specify `sep = "\\."` (it is a regular expression) 
+```{r}
+
+data_tidy_sep <- data_tidy %>% separate(trait, into = c("biomass_type", "date"), sep = "\\.")
+```
+
+5. Use `pivot_wider` to spread your type of biomass into new columns (do not spread the `date` column ! )
+
+```{r}
+data_biomass <- data_tidy_sep %>% pivot_wider(names_from = biomass_type, values_from = value)
+```
+
+
+6. __If you have the time__:
+
+Print your new dataset, what is the type of `date` ? Is it convenient ?
+
+Run the following command: `data_biomass %>% mutate(date = lubridate::ymd(date))` (replace data_biomass by the name of your dataset).
+
+What does it change ? 
+
+
+
+```{r}
+data_biomass %>% mutate(date = lubridate::ymd(date))
+
+```
+
+In practice, it is more convenient to work with date objects than with characters.
