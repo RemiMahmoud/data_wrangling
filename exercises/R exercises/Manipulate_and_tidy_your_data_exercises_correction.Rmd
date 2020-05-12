@@ -1,0 +1,117 @@
+---
+title: "Manipulate data on R"
+---
+
+
+# Explore your data
+
+
+1. Retrieve the data you read (three datasets corresponding to the sheets of phenotype.xlsx)
+
+```{r}
+library(readxl)
+data_phenotype <- read_xlsx("exercises/data/phenotype.xlsx", na = "NOT MEASURED")
+data_itk <- read_xlsx("exercises/data/phenotype.xlsx", sheet = "itk")
+data_index <- read_xlsx("exercises/data/phenotype.xlsx", sheet = "index")
+
+
+```
+
+2. Load `dplyr` and explore the three datasets using `glimpse`
+
+```{r}
+
+glimpse(data_phenotype)
+glimpse(data_itk)
+glimpse(data_index)
+
+```
+
+
+Now some insights, this is data I have to manipulate during my PhD. I modified it, and shortened it in order to make things easier. But as it is, it is something looking almost like real life situations.
+
+
+
+For this exercise, we will work on the sheet "plot" of the data.
+
+It contains values of biomass (seed and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 1. crop_type (here just sole crops), 2. a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
+
+4.1 Create a dataset  (name it `data_barley`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+
+4.2 Create a dataset  (name it `data_pea`) containing only the observations of the pea, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+
+These operations have to be done in two commands (one for barley, one for pea, without intermediate datasets).
+
+__Try to write it using the pipe__ and do it __without__ to see the difference.
+Remember ctrl + shift + M to print it.
+
+```{r}
+
+data_barley <- data_phenotype %>% 
+  filter(stringr::str_detect( cultivar, "B")) %>% 
+  select(-c(x,y))
+
+
+data_pea <- data_phenotype %>% 
+  filter(stringr::str_detect( cultivar, "P")) %>% 
+  select(-c(x,y))
+
+
+```
+
+
+5. The shoot parts of a plant contain the seed. We may need to compute the biomass of all shoot parts, *except* the seeds. Create a new column using `mutate` (name it biomass_no_seed.2002-08-08, use backticks (`) to avoid problems) that is the difference between the biomass_shoot and the biomass_seed.
+
+__Hint__: To avoid trouble while typing column name, you can use the Rstudio keyboard shortcut ctrl + space, it should suggest you the name of the columns of the dataset (__if you use the pipe__).
+
+```{r}
+
+data_barley <- data_barley %>% 
+  mutate(`biomass_no_seed.2002-08-08`= `biomass_shoot.2002-08-08` - `biomass_seed.2002-08-08`)
+
+data_pea <- data_pea %>% 
+  mutate(`biomass_no_seed.2002-08-08` = `biomass_shoot.2002-08-08`- `biomass_seed.2002-08-08`) 
+
+```
+
+6. Suppose now we want to know how many treatments (i.e code_crop) are available for each cultivar. Do it using the `distinct` function.
+
+
+```{r}
+data_phenotype %>% distinct(code_crop, cultivar)
+```
+
+What are the different treatments available for the barley and the pea ?
+
+7. Suppose we want to see if the block number has an influence on the yield of the pea (biomass_seed).
+Print `data_pea`. What is the type of the block column ? How could you change it using `mutate` and `as.factor` ?
+
+Carry out the following step to test it (using the %>% )
+
+1. Take `data_pea`
+2. Rename "biomass_seed.2002-08-08" to Yield (function `rename` of dplyr)
+3. Change the type of the block column using the function `mutate`
+4. Run an ANOVA (think on what you should put in the formula)
+5. Print a summary
+
+Conclude
+
+
+```{r}
+
+data_pea %>% 
+  rename(Yield  = `biomass_seed.2002-08-08`) %>% 
+  lm(Yield ~ cultivar + as.factor(block), data = .) %>% 
+  summary
+```
+
+8. Compute the mean and the standard deviation *by cultivar* of the yield for the barley and summarise it in a table
+
+```{r}
+data_summary <- data_barley %>% group_by(cultivar) %>% summarise(mean = mean(`biomass_seed.2002-08-08`), sd = sd(`biomass_seed.2002-08-08`))
+
+
+```
+
+## Tidy your data exercises
+

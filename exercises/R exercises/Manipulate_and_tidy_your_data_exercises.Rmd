@@ -9,6 +9,7 @@ title: "Manipulate and tidy data on R"
 1. Retrieve the data you read (three datasets corresponding to the sheets of phenotype.xlsx)
 
 ```{r}
+data_phenotype <- read_xlsx("exercises/data/phenotype.xlsx", na = "NOT MEASURED")
 
 
 ```
