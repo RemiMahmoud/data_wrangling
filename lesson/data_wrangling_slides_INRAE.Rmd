@@ -54,7 +54,7 @@ knitr::knit_hooks$set(source = function(x, options) {
 
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 library(tidyr)
 library(dplyr)
 library(tibble)
@@ -73,11 +73,11 @@ pre {
 # Who is talking ? 
 
 <!-- .pull-left[![](lesson_figures/mahmoud_photo.jpeg)] -->
-.pull-left[<img src="lesson_figures/mahmoud_photo.jpeg" style="width: 80%" />
+.center[<img src="lesson_figures/mahmoud_photo.jpeg" style="width: 40%" />
 ]
 
 <!-- -- -->
-.pull-right[![](lesson_figures/camembert.jpg)]
+<!-- .pull-right[![](lesson_figures/camembert.jpg)] -->
 
 
 .center[![](lesson_figures/inrae.png)]
@@ -91,7 +91,7 @@ class: center, middle
 
 --
 
-.large[Open the file data_wrangling_slides.pdf]
+.large[Open the file data_wrangling_slides_INRAE.pdf]
 
 --
 
@@ -179,7 +179,7 @@ tidyverse::tidyverse_packages()
 
 --
 
-You can see that `ggplot2` that you discovered yesterday belongs to the `tidyverse`. But there are *many other packages* ! 
+You can see that `ggplot2` that you may already know belongs to the `tidyverse`. But there are *many other packages* ! 
 
 --
 
@@ -774,8 +774,16 @@ data_work_by_species %>% ungroup
 ```
 
 ---
+## Functions to join tables
 
-### Since `dplyr` 1.0: function `dplyr::across`
+.center[<img src="lesson_figures/figure_join_table.png" style="width: 60%" />
+<img src="lesson_figures/figure_join_exemples.png" style="width: 50%" />]
+
+
+.small[Image from [RStudio data transformation cheatsheet](https://www.rstudio.com/resources/cheatsheets/)]
+---
+
+# Since `dplyr` 1.0: function `dplyr::across`
 
 --
 
@@ -1023,8 +1031,6 @@ Many topics have not been presented today:
 * manipulate factors using `forcats`
 * manipulate dates using `lubridate`
 * manipulate dates using `stringr`
-* join tables using the `*_join` functions of `dplyr`
-* apply `mutate`, `filter` or `select` on specific columns using `*_at`, `*_if`, `*_all` suffixes
 * ...
 
 --

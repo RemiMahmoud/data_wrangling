@@ -1,5 +1,6 @@
 ---
 title: "Manipulate and tidy data on R"
+output: pdf_document
 ---
 
 
@@ -8,8 +9,9 @@ title: "Manipulate and tidy data on R"
 
 1. Retrieve the data you read (three datasets corresponding to the sheets of phenotype.xlsx)
 
-```{r}
-data_phenotype <- read_xlsx("exercises/data/phenotype.xlsx", na = "NOT MEASURED")
+```{r, echo=FALSE}
+# library(readxl)
+# data_phenotype <- read_xlsx("exercises/data/phenotype.xlsx", na = "NOT MEASURED")
 
 
 ```
@@ -27,7 +29,10 @@ Now some insights, this is data I have to manipulate during my PhD. I modified i
 
 For this exercise, we will work on the sheet "plot" of the data.
 
-It contains values of biomass (grain (=seed) and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 1. crop_type (here just sole crops), 2. a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
+It contains values of biomass (grain (=seed) and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 
+
+1. crop_type (here just sole crops)
+2. a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
 
 4.1 Create a dataset  (name it `data_barley`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
 
@@ -38,7 +43,7 @@ These operations have to be done in two commands (one for barley, one for pea, w
 __Try to write it using the pipe__ and do it __without__ to see the difference.
 Remember ctrl + shift + M to print it.
 
-*Hint* : To `filter` rows containing observations of the barley or of the pea, you may need to use the `grepl` function, applied on the `cultivar` column.
+*Hint* : To `filter` rows containing observations of the barley or of the pea, you may need to use the `grepl` function, applied on the `cultivar` column. You may also use the `stringr::str_detect` function (tidyverse alternative to `grepl`).
 
 ```{r}
 
@@ -86,6 +91,25 @@ Conclude
 In practice, we should verify the ANOVA assumptions and study the residuals, but it is not what matters here :-) .
 
 8. Compute the mean and the standard deviation *by cultivar* of the yield for the barley and summarise it in a table
+
+```{r}
+
+```
+
+9. Use `across` function to transform biomass' values in kg/ha instead of t/ha for the barley's values.
+
+Try to do it using `where(is.numeric)` *and* `starts_with("biomass")` as `.cols` argument (see `?across`).
+
+
+```{r}
+
+
+```
+
+10. Use `left_join` function between `data_barley` and `data_itk` to get information about the density_level and the cultivar of the barleys cultivated. How many different barley cultivars are present in the data base ?
+**Hint** Use `distinct` function after (= %>%) the `left_join` to get the information asked.
+
+Do the same for the pea.
 
 ```{r}
 

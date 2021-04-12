@@ -4,9 +4,9 @@
     <title>Data-wrangling on R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Rémi Mahmoud" />
-    <script src="data_wrangling_slides_files/header-attrs/header-attrs.js"></script>
-    <link href="data_wrangling_slides_files/remark-css/default.css" rel="stylesheet" />
-    <link href="data_wrangling_slides_files/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="data_wrangling_slides_INRAE_files/header-attrs/header-attrs.js"></script>
+    <link href="data_wrangling_slides_INRAE_files/remark-css/default.css" rel="stylesheet" />
+    <link href="data_wrangling_slides_INRAE_files/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
@@ -61,11 +61,11 @@ pre {
 # Who is talking ? 
 
 &lt;!-- .pull-left[![](lesson_figures/mahmoud_photo.jpeg)] --&gt;
-.pull-left[&lt;img src="lesson_figures/mahmoud_photo.jpeg" style="width: 80%" /&gt;
+.center[&lt;img src="lesson_figures/mahmoud_photo.jpeg" style="width: 40%" /&gt;
 ]
 
 &lt;!-- -- --&gt;
-.pull-right[![](lesson_figures/camembert.jpg)]
+&lt;!-- .pull-right[![](lesson_figures/camembert.jpg)] --&gt;
 
 
 .center[![](lesson_figures/inrae.png)]
@@ -79,7 +79,7 @@ class: center, middle
 
 --
 
-.large[Open the file data_wrangling_slides.pdf]
+.large[Open the file data_wrangling_slides_INRAE.pdf]
 
 --
 
@@ -176,7 +176,7 @@ tidyverse::tidyverse_packages()
 
 --
 
-You can see that `ggplot2` that you discovered yesterday belongs to the `tidyverse`. But there are *many other packages* ! 
+You can see that `ggplot2` that you may already know belongs to the `tidyverse`. But there are *many other packages* ! 
 
 --
 
@@ -971,8 +971,16 @@ data_work_by_species %&gt;% ungroup
 ```
 
 ---
+## Functions to join tables
 
-### Since `dplyr` 1.0: function `dplyr::across`
+.center[&lt;img src="lesson_figures/figure_join_table.png" style="width: 60%" /&gt;
+&lt;img src="lesson_figures/figure_join_exemples.png" style="width: 50%" /&gt;]
+
+
+.small[Image from [RStudio data transformation cheatsheet](https://www.rstudio.com/resources/cheatsheets/)]
+---
+
+# Since `dplyr` 1.0: function `dplyr::across`
 
 --
 
@@ -1026,15 +1034,16 @@ data_work %&gt;%
 
 ```
 ## # A tibble: 150 x 9
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_in_meters Sepal.Width_in_meters Petal.Length_in_meters Petal.Width_in_meters
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;                    &lt;dbl&gt;                 &lt;dbl&gt;                  &lt;dbl&gt;                 &lt;dbl&gt;
-## 1          5.1         3.5          1.4         0.2 setosa                   0.051                 0.035                 0.0140                 0.002
-## 2          4.9         3            1.4         0.2 setosa                   0.049                 0.03                  0.0140                 0.002
-## 3          4.7         3.2          1.3         0.2 setosa                   0.047                 0.032                 0.013                  0.002
-## 4          4.6         3.1          1.5         0.2 setosa                   0.046                 0.031                 0.015                  0.002
-## 5          5           3.6          1.4         0.2 setosa                   0.05                  0.036                 0.0140                 0.002
-## 6          5.4         3.9          1.7         0.4 setosa                   0.054                 0.039                 0.017                  0.004
-## # ... with 144 more rows
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_in_met~
+##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt;
+## 1          5.1         3.5          1.4         0.2 setosa                 0.051
+## 2          4.9         3            1.4         0.2 setosa                 0.049
+## 3          4.7         3.2          1.3         0.2 setosa                 0.047
+## 4          4.6         3.1          1.5         0.2 setosa                 0.046
+## 5          5           3.6          1.4         0.2 setosa                 0.05 
+## 6          5.4         3.9          1.7         0.4 setosa                 0.054
+## # ... with 144 more rows, and 3 more variables: Sepal.Width_in_meters &lt;dbl&gt;,
+## #   Petal.Length_in_meters &lt;dbl&gt;, Petal.Width_in_meters &lt;dbl&gt;
 ```
 
 
@@ -1268,8 +1277,6 @@ Many topics have not been presented today:
 * manipulate factors using `forcats`
 * manipulate dates using `lubridate`
 * manipulate dates using `stringr`
-* join tables using the `*_join` functions of `dplyr`
-* apply `mutate`, `filter` or `select` on specific columns using `*_at`, `*_if`, `*_all` suffixes
 * ...
 
 --
