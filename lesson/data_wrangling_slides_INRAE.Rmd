@@ -1037,7 +1037,8 @@ Many topics have not been presented today:
 
 Feel free to consult this book (available for free online at this adress: [https://r4ds.had.co.nz/](https://r4ds.had.co.nz/)):
 
-.center[![](lesson_figures/r4ds.jpg)]
+<!-- .center[![](lesson_figures/r4ds.jpg)] -->
+.center[<img src="lesson_figures/r4ds.jpg" style="width: 20%" />]
 
 ---
 
