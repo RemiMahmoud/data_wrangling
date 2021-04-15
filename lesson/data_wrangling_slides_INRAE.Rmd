@@ -91,7 +91,7 @@ class: center, middle
 
 --
 
-.large[Open the file data_wrangling_slides_INRAE.pdf]
+.large[Open the website: https://datawrangling-tuto.netlify.app/lesson/#1]
 
 --
 
