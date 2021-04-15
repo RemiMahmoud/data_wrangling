@@ -54,7 +54,7 @@ knitr::knit_hooks$set(source = function(x, options) {
 
 ```
 
-```{r, echo = FALSE, warning=FALSE}
+```{r, echo = FALSE, warning=FALSE, message = FALSE}
 library(tidyr)
 library(dplyr)
 library(tibble)
@@ -91,7 +91,8 @@ class: center, middle
 
 --
 
-.large[Open the file data_wrangling_slides_INRAE.pdf]
+.large[Open the website: https://datawrangling-tuto.netlify.app/lesson/#1]
+
 
 --
 
