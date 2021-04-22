@@ -576,7 +576,7 @@ class: center, middle
 
 --
 
-.large[~ 15 minutes]
+.large[~ 10 minutes]
 
 
 ---
