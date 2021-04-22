@@ -292,6 +292,10 @@ class: center, middle
 
 --
 
+.large[*File  --> New project --> Version Control -->  Git  --> Copy paste deposit URL*]
+
+OR 
+
 .large[*Download the zip Github depository, open "Import_data_exercises.Rmd" with Rstudio*]
 
 
