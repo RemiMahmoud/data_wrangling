@@ -1,0 +1,144 @@
+---
+title: "Import data on R"
+---
+
+
+```{r setup, include=FALSE}
+
+```
+
+
+# Import data using `read_csv`
+
+1. Load the `readr` package
+
+```{r}
+
+library(readr)
+```
+
+
+2. Read the data "iris.csv" contained in the folder "exercises/data", using the function `read_csv` of  `readr`. Store it in an object (choose the name, just avoid calling it `iris`). Print that object.
+
+
+```{r}
+
+data_iris <- read_csv("data/iris.csv")
+data_iris
+iris
+
+```
+
+
+3. Print `iris` (the classical dataset) directly in the console. 
+
+
+What are the differences between your dataset and the classical one, when printed  ? 
+
+
+
+4. Explore your object using `glimpse` function (load `dplyr` before).
+
+
+```{r}
+library(dplyr)
+
+glimpse(data_iris)
+```
+
+
+### Other arguments of `read_csv`
+
+
+
+1. Read the data "cars.csv" contained in the folder "exercises/data", using the function `read_csv` of  `readr`. Store it in an object. Print that object.
+
+
+```{r}
+data_cars <- readr::read_csv("exercises/data/cars.csv")
+
+data_cars
+```
+
+
+Do you see the problem ? Open manually the file and find how to tackle the problem, using other arguments of `read_csv` (see ?read_csv) for details.
+
+
+```{r}
+data_cars <- readr::read_csv("exercises/data/cars.csv", skip = 2)
+```
+
+Confirm that you tackled the problem by running `ncol(data_cars)` (replace `data_cars` by the name of the object where you stored the dataset).
+
+There should be 13 columns.
+
+
+```{r}
+ncol(data_cars)
+```
+
+Explore your data using `glimpse`
+```{r}
+glimpse(data_cars)
+```
+
+When you see the column "id_car" it is stored as a double, but it may be considered as a character as it is an ID (i.e a name). Use read_csv to consider id_car as character (see argument `col_types` in `read_csv`).
+
+
+```{r}
+
+# data_cars <- readr::read_csv("exercises/data/cars.csv", skip = 2, col_types = list(col_character(), col_double(), col_double(),col_double(),col_double(),col_double(),col_double(),col_double(),col_double(),col_double(),col_double(),col_double(),   id_car = col_character()))
+
+data_cars <- readr::read_csv("exercises/data/cars.csv", skip = 2, col_types = "cdddddddddddc")
+
+
+```
+
+In practice, it could be easier to convert the columns into other types after having imported the data.
+
+
+Ensure you have imported well your data by using `glimpse` again.
+
+```{r}
+glimpse(data_cars)
+```
+
+# Import data using `readxl`
+
+1. Load the `readxl` package
+
+```{r}
+library(readxl)
+
+```
+
+
+2. Read the data "phenotype.xlsx" contained in the folder "exercises/data", using the function `read_xlsx` of  `readxl`. Store it in an object. Print that object.
+
+
+```{r}
+
+data_phenotype <- read_xlsx("exercises/data/phenotype.xlsx")
+
+```
+
+3. What happens when you don't specify the sheet argument ? What are the types of the columns ? How can you tackle this problem ?
+
+```{r}
+data_phenotype <- read_xlsx("exercises/data/phenotype.xlsx", na = "NOT MEASURED")
+
+```
+
+
+Read the other sheets of the file and store them in other objects.
+
+```{r}
+
+data_itk <- read_xlsx("exercises/data/phenotype.xlsx", sheet = "itk")
+data_index <- read_xlsx("exercises/data/phenotype.xlsx", sheet = "index")
+
+
+```
+
+The datasets you have created will be useful to us in the next exercises.
+
