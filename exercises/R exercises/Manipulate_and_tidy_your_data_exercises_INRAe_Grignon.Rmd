@@ -1,0 +1,171 @@
+---
+title: "Manipulate and tidy data on R"
+output: pdf_document
+---
+
+
+# Explore your data
+
+
+1. Run the following piece of code to build three datasets (*data_phenotype*, *data_index* and *data_itk*)
+
+
+```{r, echo=FALSE}
+data_phenotype <- structure(list(code_crop = c("SC_B_B1_1_N0_P0", "SC_B_B1_1_N0_P0", 
+"SC_B_B1_1_N0_P0", "SC_B_B1_1_N0_P0", "SC_B_B1_1_N1_P0", "SC_B_B1_1_N1_P0", 
+"SC_B_B1_1_N1_P0", "SC_B_B1_1_N1_P0", "SC_B_B2_1_N0_P0", "SC_B_B2_1_N0_P0", 
+"SC_B_B2_1_N0_P0", "SC_B_B2_1_N0_P0", "SC_B_B2_1_N1_P0", "SC_B_B2_1_N1_P0", 
+"SC_B_B2_1_N1_P0", "SC_B_B2_1_N1_P0", "SC_P_P1_1_N0_P0", "SC_P_P1_1_N0_P0", 
+"SC_P_P1_1_N0_P0", "SC_P_P1_1_N0_P0", "SC_P_P2_1_N0_P0", "SC_P_P2_1_N0_P0", 
+"SC_P_P2_1_N0_P0", "SC_P_P2_1_N0_P0"), cultivar = c("B1", "B1", 
+"B1", "B1", "B1", "B1", "B1", "B1", "B2", "B2", "B2", "B2", "B2", 
+"B2", "B2", "B2", "P1", "P1", "P1", "P1", "P2", "P2", "P2", "P2"
+), block = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 
+1, 2, 3, 4, 1, 2, 3, 4), x = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 
+3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4), y = c(17, 109, 230, 
+320, 65, 121, 188, 259, 37, 91, 179, 307, 7, 86, 205, 287, 1, 
+98, 176, 269, 35, 128, 185, 263), `biomass_seed.2002-08-08` = c(0.93, 
+0.953, 1.04, 0.706, 2.31, 2.22, 2.471, 2.167, 1.205, 1.878, 1.648, 
+1.969, 2.95, 3.912, 3.175, 2.72, 5.01, 4.76111111111111, 5.91366666666667, 
+5.45777777777778, 3.17344444444444, 3.523, 4.513, 6.07988888888889
+), `biomass_shoot.2002-08-08` = c(1.67, 1.72, 2.002, 1.434, 3.767, 
+4.662, 5.079, NA, 2.094, 3.059, 2.866, 3.47, 5.768, 7.149, 6.111, 
+5.03, 7.04222222222222, 8.61111111111111, 10.7066666666667, 9.87777777777778, 
+NA, 6.36, 8.16, 11.0088888888889)), row.names = c(NA, -24L), class = c("tbl_df", 
+"tbl", "data.frame"))
+
+
+data_index <- structure(list(code_crop = c("SC_B_B1_1_N0_P0", "SC_B_B1_1_N0_P0", 
+"SC_B_B1_1_N0_P0", "SC_B_B1_1_N0_P0", "SC_B_B1_1_N1_P0", "SC_B_B1_1_N1_P0", 
+"SC_B_B1_1_N1_P0", "SC_B_B1_1_N1_P0", "SC_B_B2_1_N0_P0", "SC_B_B2_1_N0_P0", 
+"SC_B_B2_1_N0_P0", "SC_B_B2_1_N0_P0", "SC_B_B2_1_N1_P0", "SC_B_B2_1_N1_P0", 
+"SC_B_B2_1_N1_P0", "SC_B_B2_1_N1_P0", "SC_P_P1_1_N0_P0", "SC_P_P1_1_N0_P0", 
+"SC_P_P1_1_N0_P0", "SC_P_P1_1_N0_P0", "SC_P_P2_1_N0_P0", "SC_P_P2_1_N0_P0", 
+"SC_P_P2_1_N0_P0", "SC_P_P2_1_N0_P0"), cultivar = c("B1", "B1", 
+"B1", "B1", "B1", "B1", "B1", "B1", "B2", "B2", "B2", "B2", "B2", 
+"B2", "B2", "B2", "P1", "P1", "P1", "P1", "P2", "P2", "P2", "P2"
+), block = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 
+1, 2, 3, 4, 1, 2, 3, 4), x = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 
+3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4), y = c(17, 109, 230, 
+320, 65, 121, 188, 259, 37, 91, 179, 307, 7, 86, 205, 287, 1, 
+98, 176, 269, 35, 128, 185, 263), management = c("M1", "M1", 
+"M1", "M1", "M2", "M2", "M2", "M2", "M3", "M3", "M3", "M3", "M4", 
+"M4", "M4", "M4", "M5", "M5", "M5", "M5", "M6", "M6", "M6", "M6"
+)), row.names = c(NA, -24L), class = c("tbl_df", "tbl", "data.frame"
+))
+
+
+
+data_itk <-structure(list(code_crop = c("SC_B_B1_1_N0_P0", "SC_B_B1_1_N1_P0", 
+"SC_B_B2_1_N0_P0", "SC_B_B2_1_N1_P0", "SC_P_P1_1_N0_P0", "SC_P_P2_1_N0_P0"
+), management = c("M1", "M2", "M3", "M4", "M5", "M6"), crop_type = c("SC", 
+"SC", "SC", "SC", "SC", "SC"), cultivar = c("B1", "B1", "B2", 
+"B2", "P1", "P2"), species = c("barley", "barley", "barley", 
+"barley", "pea", "pea"), cultivar_mix = c("B1", "B1", "B2", "B2", 
+"P1", "P2"), species_mix = c("barley", "barley", "barley", "barley", 
+"pea", "pea"), density_level = c(300, 300, 300, 300, 90, 90), 
+    N_factor = c("N0", "N2", "N0", "N2", "N0", "N0")), row.names = c(NA, 
+-6L), class = c("tbl_df", "tbl", "data.frame"))
+
+```
+
+2. Load `dplyr` and explore the three datasets using `glimpse`
+
+```{r}
+
+```
+
+
+Now some insights, this is data I have to manipulate during my PhD. I modified it, and shortened it in order to make things easier. But as it is, it is something looking almost like real life situations.
+
+
+
+For this exercise, we will work on the sheet "plot" of the data.
+
+It contains values of biomass (grain (=seed) and shoot parts) of 2 different species (barley, pea). The first column `code_crop` giving 
+* crop_type (here just sole crops)
+* a letter for the species (B for barley, P for pea), a code for the cultivar (B1 for cultivar 1 for barley), the N treatment (N0 for unfertilized crop, N1 for fertilized crop) and a P treatment (here always P0, i.e unfertilzed crops).
+
+3.1 Create a dataset  (name it `data_barley`) containing only the observations of the barley, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+
+3.2 Create a dataset  (name it `data_pea`) containing only the observations of the pea, using the function `filter` of `dplyr`, select all columns except `x` and `y` and arrange them by `code_crop` and `block`.
+
+These operations have to be done in two commands (one for barley, one for pea, without intermediate datasets).
+
+__Try to write it using the pipe__ and do it __without__ to see the difference.
+Remember ctrl + shift + M to print it.
+
+*Hint* : To `filter` rows containing observations of the barley or of the pea, you may need to use the `grepl` function, applied on the `cultivar` column. You may also use the `stringr::str_detect` function (tidyverse alternative to `grepl`).
+
+```{r}
+
+
+```
+
+
+4. The shoot parts of a plant contain the grain. We may need to compute the biomass of all shoot parts, *except* the seeds. Create a new column using `mutate` (name it biomass_no_seed) that is the difference between the biomass_shoot and the biomass_seed.
+
+*Hint*: To avoid trouble while typing column name, you can use the Rstudio keyboard shortcut ctrl + space, it should suggest you the name of the columns of the dataset (__if you use the pipe__).
+
+```{r}
+
+
+```
+
+5. Suppose now we want to know how many treatments (i.e code_crop) are available for each cultivar. Do it using the `distinct` function.
+
+
+```{r}
+
+```
+
+What are the different treatments available for the barley and the pea ?
+
+
+6. Suppose we want to see if the block number has an influence on the yield of the pea (biomass_seed).
+Print `data_pea`. What is the type of the block column ? How could you change it using `mutate` and `as.factor` ?
+
+Carry out the following step to test it (using the %>% )
+
+1. Take `data_pea`
+2. Rename "biomass_seed.2002-08-08" to Yield (function `rename` of dplyr)
+3. Change the type of the block column using the function `mutate`
+4. Run an ANOVA (think on what you should put in the formula)
+5. Print a summary
+
+Conclude
+
+
+```{r}
+
+```
+
+In practice, we should verify the ANOVA assumptions and study the residuals, but it is not what matters here :-) .
+
+8. Compute the mean and the standard deviation *by cultivar* of the yield for the barley and summarise it in a table
+
+```{r}
+
+```
+
+9. Use `across` function to transform biomass' values in kg/ha instead of t/ha for the barley's values.
+
+Try to do it in two ways, using `where(is.numeric)` *and* using `starts_with("biomass")` as `.cols` argument (see `?across`).
+
+
+```{r}
+
+
+```
+
+10. Use `left_join` function between `data_barley` and `data_itk` to get information about the density_level and the cultivar of the barleys cultivated. How many different barley cultivars are present in the data base ?
+**Hint** Use `distinct` function after (i.e %>%) the `left_join` to get the information asked.
+
+Do the same for the pea.
+
+```{r}
+
+```
+
+
+
